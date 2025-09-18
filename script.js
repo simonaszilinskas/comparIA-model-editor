@@ -6,38 +6,16 @@ class ModelEditor {
         this.editingCompanyIndex = null;
         this.editingModelIndex = null;
         this.changes = [];
-        this.selectedBranch = this.loadSelectedBranch();
 
         this.init();
     }
     
     init() {
         this.bindEvents();
-        this.initBranchSelector();
         this.loadInitialData();
         this.initCharacterCounters();
     }
 
-    loadSelectedBranch() {
-        return localStorage.getItem('comparIA-selected-branch') || 'develop';
-    }
-
-    saveSelectedBranch(branch) {
-        localStorage.setItem('comparIA-selected-branch', branch);
-        this.selectedBranch = branch;
-    }
-
-    initBranchSelector() {
-        const branchSelector = document.getElementById('branch-selector');
-        if (branchSelector) {
-            branchSelector.value = this.selectedBranch;
-            branchSelector.addEventListener('change', (e) => {
-                this.saveSelectedBranch(e.target.value);
-                // Auto-sync when branch changes
-                this.syncWithComparIA();
-            });
-        }
-    }
     
     getExistingLicenses() {
         const licenses = new Set();
@@ -101,7 +79,7 @@ class ModelEditor {
     }
 
     async loadComparIAData() {
-        const branch = this.selectedBranch || 'develop';
+        const branch = 'develop';
         const comparIAUrl = `https://raw.githubusercontent.com/betagouv/ComparIA/${branch}/utils/models/models.json`;
 
         try {
@@ -118,8 +96,8 @@ class ModelEditor {
                 this.renderCompanies();
                 this.renderModels();
 
-                // Show success message with branch info
-                this.showSyncStatus(`Données synchronisées avec ComparIA (${branch})`, 'success');
+                // Show success message
+                this.showSyncStatus('Données synchronisées avec ComparIA', 'success');
             } else {
                 throw new Error('Invalid data format from ComparIA');
             }
