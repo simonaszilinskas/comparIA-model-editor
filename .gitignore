@@ -1,0 +1,23 @@
+# Vercel
+.vercel
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Claude workspace
+.claude/
+
+# Temporary files
+*.tmp
+*.temp
