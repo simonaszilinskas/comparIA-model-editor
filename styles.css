@@ -35,6 +35,39 @@ h1 {
 .header-actions {
     display: flex;
     gap: 10px;
+    align-items: center;
+}
+
+.sync-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(242, 242, 247, 0.8);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid #d2d2d7;
+}
+
+.branch-selector {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: white;
+    color: #1d1d1f;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 80px;
+}
+
+.branch-selector:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.3);
+}
+
+.branch-selector:hover {
+    background-color: #f8f9fa;
 }
 
 .btn {
@@ -699,6 +732,19 @@ h1 {
     .header-actions .btn {
         font-size: 12px;
         padding: 8px 12px;
+    }
+
+    .sync-controls {
+        order: -1;
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .branch-selector {
+        flex: 1;
+        font-size: 11px;
+        padding: 8px 10px;
     }
 }
 

@@ -12,7 +12,14 @@
             <h1>Compar:IA model editor</h1>
             <div class="header-actions">
                 <input type="file" id="import-file" accept=".json" style="display: none;">
-                <button id="sync-btn" class="btn btn-secondary" onclick="modelEditor.syncWithComparIA()">🔄 Synchroniser</button>
+                <div class="sync-controls">
+                    <select id="branch-selector" class="branch-selector" title="Choisir la branche ComparIA">
+                        <option value="develop">develop</option>
+                        <option value="main">main</option>
+                        <option value="master">master</option>
+                    </select>
+                    <button id="sync-btn" class="btn btn-secondary" onclick="modelEditor.syncWithComparIA()">🔄 Synchroniser</button>
+                </div>
                 <button id="import-btn" class="btn btn-secondary">Importer fichier JSON</button>
                 <button id="paste-json-btn" class="btn btn-secondary">Coller JSON</button>
                 <button id="export-csv-btn" class="btn btn-secondary">Exporter CSV</button>
