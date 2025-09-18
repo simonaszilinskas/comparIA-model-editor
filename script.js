@@ -65,10 +65,44 @@ class ModelEditor {
     }
     
     async loadInitialData() {
-        // Start with empty data - user must import
-        this.data = [];
-        this.originalData = [];
-        this.showImportRequiredState();
+        try {
+            // Try to load data from ComparIA repository
+            await this.loadComparIAData();
+        } catch (error) {
+            console.log('Failed to load ComparIA data, showing import required state:', error);
+            // Fallback to empty state if loading fails
+            this.data = [];
+            this.originalData = [];
+            this.showImportRequiredState();
+        }
+    }
+
+    async loadComparIAData() {
+        const comparIAUrl = 'https://raw.githubusercontent.com/betagouv/ComparIA/develop/utils/models/models.json';
+
+        try {
+            const response = await fetch(comparIAUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            if (Array.isArray(data) && data.length > 0) {
+                this.data = data;
+                this.originalData = JSON.parse(JSON.stringify(data));
+                this.renderCompanies();
+                this.renderModels();
+
+                // Show success message
+                this.showSyncStatus('Données synchronisées avec ComparIA', 'success');
+            } else {
+                throw new Error('Invalid data format from ComparIA');
+            }
+        } catch (error) {
+            console.error('Error loading ComparIA data:', error);
+            throw error;
+        }
     }
 
     showImportRequiredState() {
@@ -86,9 +120,12 @@ class ModelEditor {
         companiesList.innerHTML = `
             <div class="empty-state import-required">
                 <h3>Aucune donnée</h3>
-                <p>Veuillez importer des données JSON pour commencer à éditer des modèles.</p>
+                <p>Échec du chargement automatique. Vous pouvez réessayer la synchronisation ou importer vos propres données.</p>
                 <div class="import-actions">
-                    <button class="btn btn-primary" onclick="document.getElementById('import-file').click()">
+                    <button class="btn btn-primary" onclick="modelEditor.syncWithComparIA()">
+                        🔄 Synchroniser avec ComparIA
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">
                         📁 Importer fichier JSON
                     </button>
                     <button class="btn btn-secondary" onclick="modelEditor.showPasteJsonModal()">
@@ -106,6 +143,46 @@ class ModelEditor {
         `;
 
         editorTitle.textContent = 'Importez des données pour commencer';
+    }
+
+    async syncWithComparIA() {
+        this.showSyncStatus('Synchronisation en cours...', 'loading');
+
+        try {
+            await this.loadComparIAData();
+        } catch (error) {
+            this.showSyncStatus('Échec de la synchronisation avec ComparIA', 'error');
+            console.error('Sync failed:', error);
+        }
+    }
+
+    showSyncStatus(message, type) {
+        // Remove any existing status
+        const existingStatus = document.querySelector('.sync-status');
+        if (existingStatus) {
+            existingStatus.remove();
+        }
+
+        // Create status element
+        const status = document.createElement('div');
+        status.className = `sync-status sync-status-${type}`;
+        status.innerHTML = `
+            <span class="sync-message">${message}</span>
+            ${type !== 'loading' ? '<button class="sync-close" onclick="this.parentElement.remove()">×</button>' : ''}
+        `;
+
+        // Add to header
+        const header = document.querySelector('header');
+        header.appendChild(status);
+
+        // Auto-remove success/error messages after 5 seconds
+        if (type !== 'loading') {
+            setTimeout(() => {
+                if (status && status.parentElement) {
+                    status.remove();
+                }
+            }, 5000);
+        }
     }
 
     bindEvents() {

@@ -23,6 +23,7 @@ Un éditeur visuel pour gérer et modifier les données de modèles d'IA avec un
 
 ## 📋 Fonctionnalités
 
+- **Synchronisation automatique** - Se connecte automatiquement aux données ComparIA en production
 - **Interface française complète** - Tous les textes en français
 - **Import/Export JSON** - Importez vos données ou collez directement
 - **Gestion des éditeurs** - Ajoutez, modifiez, supprimez des éditeurs de modèles
@@ -33,10 +34,12 @@ Un éditeur visuel pour gérer et modifier les données de modèles d'IA avec un
 
 ## 🛠️ Utilisation
 
-1. **Importez vos données** - Utilisez "Importer fichier JSON" ou "Coller JSON"
-2. **Gérez les éditeurs** - Ajoutez des entreprises/éditeurs de modèles
-3. **Éditez les modèles** - Modifiez les informations de chaque modèle
-4. **Exportez** - Récupérez vos données en JSON ou CSV
+1. **Synchronisation automatique** - L'application charge automatiquement les données depuis [ComparIA](https://github.com/betagouv/ComparIA/blob/develop/utils/models/models.json)
+2. **Synchronisation manuelle** - Utilisez le bouton "🔄 Synchroniser" pour recharger les dernières données
+3. **Import alternatif** - Utilisez "Importer fichier JSON" ou "Coller JSON" pour vos propres données
+4. **Gérez les éditeurs** - Ajoutez des entreprises/éditeurs de modèles
+5. **Éditez les modèles** - Modifiez les informations de chaque modèle
+6. **Exportez** - Récupérez vos données en JSON ou CSV
 
 ## 🔧 Développement local
 
