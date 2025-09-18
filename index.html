@@ -14,9 +14,11 @@
                 <input type="file" id="import-file" accept=".json" style="display: none;">
                 <div class="sync-controls">
                     <select id="branch-selector" class="branch-selector" title="Choisir la branche ComparIA">
-                        <option value="develop">develop</option>
-                        <option value="main">main</option>
-                        <option value="master">master</option>
+                        <option value="develop">develop (défaut)</option>
+                        <option value="consolidate">consolidate</option>
+                        <option value="enable-reasoning">enable-reasoning</option>
+                        <option value="enh-datasets-page">enh-datasets-page</option>
+                        <option value="dockerfile-fastapi+sveltekit-static">dockerfile-fastapi+sveltekit-static</option>
                     </select>
                     <button id="sync-btn" class="btn btn-secondary" onclick="modelEditor.syncWithComparIA()">🔄 Synchroniser</button>
                 </div>
